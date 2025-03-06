@@ -340,7 +340,7 @@ def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int =
         matriz[i][j].movimiento = True
         return evolucion(matriz, i, j + 1)
 
-    return evolucion(matriz, i, j+1)
+    #return evolucion(matriz, i, j+1)
 
   if isinstance(matriz[i][j], Alimento):
     pass
