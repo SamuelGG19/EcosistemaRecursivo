@@ -517,6 +517,21 @@ def imprimir_matriz(matriz: list[list[Animal | Alimento | None]], i: int = 0, j:
   fila.append(" ")
   return imprimir_matriz(matriz, i, j+1, fila)
 
+def simulacion(matriz: list[list[Animal | Alimento | None]], sim: str = ""):
+  sim = input("¿Continuar simulación? (Y/N)").upper()
+  if sim == "N":
+    return None
+  if sim != "Y":
+    return simulacion(matriz, "")
+
+  evolucion(matriz)
+  imprimir_matriz(matriz)
+  return simulacion(matriz, "")
+
+
+
+
 if __name__ == "__main__":
   m = generar_matriz(10)
   imprimir_matriz(m)
+  simulacion(m)
