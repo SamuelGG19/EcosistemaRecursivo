@@ -405,7 +405,6 @@ def buscar_presa(matriz: list[list[Animal | Alimento | None]], fila: int, column
   if direccion == "F":
     return distancia
 
-
 def direccion_movimiento_depredador(matriz: list[list[Animal | Alimento | None]], fila: int, columna: int, index: int = 0, presas: list[int | None] = [], presas_cercanas: list[int] = []) -> str:
   if presas == []:
     presas = buscar_presa(matriz, fila, columna, 1, "arr", [])
@@ -504,7 +503,20 @@ def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int =
 
   return evolucion(matriz, i, j + 1)
 
+def imprimir_matriz(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int = 0, fila: list[str] = []):
+  if i == len(matriz):
+    return None
+  if j == len(matriz):
+    print(fila)
+    return imprimir_matriz(matriz, i+1, 0, [])
 
-m = generar_matriz(10)
-for fila in m:
-  print([str(objeto) if objeto else " " for objeto in fila])
+  if matriz[i][j] is not None:
+    fila.append(str(matriz[i][j]))
+    return imprimir_matriz(matriz, i, j+1, fila)
+
+  fila.append(" ")
+  return imprimir_matriz(matriz, i, j+1, fila)
+
+if __name__ == "__main__":
+  m = generar_matriz(10)
+  imprimir_matriz(m)
