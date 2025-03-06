@@ -127,7 +127,10 @@ class Depredador(Animal):
       return None
 
   def __str__(self):
-    return f"D. E: {self.energia}"
+    if self.energia >= 20:
+      return "D"
+    else:
+      return "d"
 
 class Presa(Animal):
   def reproduccion(self, matriz: list[list], direccion: int, i: int = 0, j: int = 0):
@@ -268,7 +271,10 @@ class Presa(Animal):
       return None
 
   def __str__(self):
-    return f"P. E: {self.energia}"
+    if self.energia >= 20:
+      return "P"
+    else:
+      return "p"
 
 class Alimento:
   def __init__(self):
@@ -278,7 +284,10 @@ class Alimento:
     self.energia -= 5
 
   def __str__(self):
-    return f"A. E: {self.energia}"
+    if self.energia <= 20:
+      return "A"
+    else:
+      return "a"
 
 def generar_matriz(n: int, i: int = 0, j: int = 0, fila: list[Animal | Alimento | None] = [], matriz: list[list[Animal | Alimento | None]] = []) -> list[list[Animal | Alimento | None]]:
   if i == n:
