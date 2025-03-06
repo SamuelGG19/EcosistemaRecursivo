@@ -494,11 +494,13 @@ def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int =
 
   if isinstance(matriz[i][j], Depredador):
     movimiento_depredador(matriz, i, j)
-    return evolucion(matriz, i, j+1)
+    return evolucion(matriz, i, j + 1)
 
   if isinstance(matriz[i][j], Alimento):
-    pass
-    #return ...
+    matriz[i][j].reducir_energia()
+    if matriz[i][j].energia == 0:
+      matriz[i][j] = None
+    return evolucion(matriz, i, j+1)
 
   return evolucion(matriz, i, j + 1)
 
