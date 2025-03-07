@@ -12,115 +12,138 @@ class Animal:
   def comer(self):
     self.energia += 10
 
-  def reproduccion(self, matriz: list[list], direccion: str | int, i: int = 0, j: int = 0):
-    pass
-
 
 class Depredador(Animal):
-  def reproduccion(self, matriz: list[list], direccion: str, i: int = 0, j: int = 0):
-    if direccion == "arr":
+  def reproduccion(self, matriz: list[list], direccion: str, nueva_direccion: int, i: int, j: int):
+    if direccion == "arr" or (direccion == "N" and nueva_direccion == 1):
       try:
-        if matriz[i][j-1] is None:
-          matriz[i][j-1] = Presa()
+        if j-1 >= 0:
+          if matriz[i][j-1] is None:
+            matriz[i][j-1] = Depredador()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i][j+1] is None:
-          matriz[i][j+1] = Presa()
+          matriz[i][j+1] = Depredador()
+          return None
       except IndexError:
         pass
 
       try:
-        if matriz[i-1][j-1] is None:
-          matriz[i-1][j-1] = Presa()
+        if i-1 >= 0 and j-1 >= 0:
+          if matriz[i-1][j-1] is None:
+            matriz[i-1][j-1] = Depredador()
+            return None
       except IndexError:
         pass
 
       try:
-        if matriz[i-1][j+1] is None:
-          matriz[i-1][j+1] = Presa()
+        if i-1 >= 0:
+          if matriz[i-1][j+1] is None:
+            matriz[i-1][j+1] = Depredador()
+            return None
       except IndexError:
         pass
 
       return None
 
-    if direccion == "abj":
+    if direccion == "abj" or (direccion == "N" and nueva_direccion == 2):
       try:
-        if matriz[i][j-1] is None:
-          matriz[i][j-1] = Presa()
+        if j-1 >= 0:
+          if matriz[i][j-1] is None:
+            matriz[i][j-1] = Depredador()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i][j+1] is None:
-          matriz[i][j+1] = Presa()
+          matriz[i][j+1] = Depredador()
+          return None
       except IndexError:
         pass
 
       try:
-        if matriz[i+1][j-1] is None:
-          matriz[i+1][j-1] = Presa()
-      except IndexError:
-        pass
-
-      try:
-        if matriz[i+1][j+1] is None:
-          matriz[i+1][j+1] = Presa()
-      except IndexError:
-        pass
-
-      return None
-
-    if direccion == "izq":
-      try:
-        if matriz[i-1][j] is None:
-          matriz[i-1][j] = Presa()
-      except IndexError:
-        pass
-
-      try:
-        if matriz[i+1][j] is None:
-          matriz[i+1][j] = Presa()
-      except IndexError:
-        pass
-
-      try:
-        if matriz[i-1][j-1] is None:
-          matriz[i-1][j-1] = Presa()
-      except IndexError:
-        pass
-
-      try:
-        if matriz[i+1][j-1] is None:
-          matriz[i+1][j-1] = Presa()
-      except IndexError:
-        pass
-
-      return None
-
-    if direccion == "der":
-      try:
-        if matriz[i-1][j] is None:
-          matriz[i-1][j] = Presa()
-      except IndexError:
-        pass
-
-      try:
-        if matriz[i+1][j] is None:
-          matriz[i+1][j] = Presa()
-      except IndexError:
-        pass
-
-      try:
-        if matriz[i-1][j+1] is None:
-          matriz[i-1][j+1] = Presa()
+        if j-1 >= 0:
+          if matriz[i+1][j-1] is None:
+            matriz[i+1][j-1] = Depredador()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i+1][j+1] is None:
-          matriz[i+1][j+1] = Presa()
+          matriz[i+1][j+1] = Depredador()
+          return None
+      except IndexError:
+        pass
+
+      return None
+
+    if direccion == "izq" or (direccion == "N" and nueva_direccion == 3):
+      try:
+        if i-1 >= 0:
+          if matriz[i-1][j] is None:
+            matriz[i-1][j] = Depredador()
+            return None
+      except IndexError:
+        pass
+
+      try:
+        if matriz[i+1][j] is None:
+          matriz[i+1][j] = Depredador()
+          return None
+      except IndexError:
+        pass
+
+      try:
+        if i-1 >= 0 and j-1 >= 0:
+          if matriz[i-1][j-1] is None:
+            matriz[i-1][j-1] = Depredador()
+            return None
+      except IndexError:
+        pass
+
+      try:
+        if j-1 >= 0:
+          if matriz[i+1][j-1] is None:
+            matriz[i+1][j-1] = Depredador()
+            return None
+      except IndexError:
+        pass
+
+      return None
+
+    if direccion == "der" or (direccion == "N" and nueva_direccion == 4):
+      try:
+        if i-1 >= 0:
+          if matriz[i-1][j] is None:
+            matriz[i-1][j] = Depredador()
+            return None
+      except IndexError:
+        pass
+
+      try:
+        if matriz[i+1][j] is None:
+          matriz[i+1][j] = Depredador()
+          return None
+      except IndexError:
+        pass
+
+      try:
+        if i-1 >= 0:
+          if matriz[i-1][j+1] is None:
+            matriz[i-1][j+1] = Depredador()
+            return None
+      except IndexError:
+        pass
+
+      try:
+        if matriz[i+1][j+1] is None:
+          matriz[i+1][j+1] = Depredador()
+          return None
       except IndexError:
         pass
 
@@ -133,70 +156,88 @@ class Depredador(Animal):
       return "d"
 
 class Presa(Animal):
-  def reproduccion(self, matriz: list[list], direccion: int, i: int = 0, j: int = 0):
+  def reproduccion(self, matriz: list[list], direccion: int, i: int, j: int):
     if direccion == 1:
-      if matriz[i][j-1] is None:
-        matriz[i][j-1] = Presa()
-      if matriz[i-1][j] is None:
-        matriz[i-1][j] = Presa()
+      if matriz[i][j - 1] is None:
+        matriz[i][j - 1] = Presa()
+        return None
+      if matriz[i - 1][j] is None:
+        matriz[i - 1][j] = Presa()
+        return None
       return None
 
     if direccion == 2:
       try:
-        if matriz[i][j-1] is None:
-          matriz[i][j-1] = Presa()
+        if j-1 >= 0:
+          if matriz[i][j-1] is None:
+            matriz[i][j-1] = Presa()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i][j+1] is None:
           matriz[i][j+1] = Presa()
+          return None
       except IndexError:
         pass
 
       try:
-        if matriz[i-1][j-1] is None:
-          matriz[i-1][j-1] = Presa()
+        if i-1 >= 0 and j-1 >= 0:
+          if matriz[i-1][j-1] is None:
+            matriz[i-1][j-1] = Presa()
+            return None
       except IndexError:
         pass
 
       try:
-        if matriz[i-1][j+1] is None:
-          matriz[i-1][j+1] = Presa()
+        if i-1 >= 0:
+          if matriz[i-1][j+1] is None:
+            matriz[i-1][j+1] = Presa()
+            return None
       except IndexError:
         pass
 
       return None
 
     if direccion == 3:
-      if matriz[i][j+1] is None:
-        matriz[i][j+1] = Presa()
-      if matriz[i-1][j] is None:
-        matriz[i-1][j] = Presa()
+      if matriz[i][j + 1] is None:
+        matriz[i][j + 1] = Presa()
+        return None
+      if matriz[i - 1][j] is None:
+        matriz[i - 1][j] = Presa()
+        return None
       return None
 
     if direccion == 4:
       try:
-        if matriz[i-1][j] is None:
-          matriz[i-1][j] = Presa()
+        if i-1 >= 0:
+          if matriz[i-1][j] is None:
+            matriz[i-1][j] = Presa()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i+1][j] is None:
           matriz[i+1][j] = Presa()
+          return None
       except IndexError:
         pass
 
       try:
-        if matriz[i-1][j-1] is None:
-          matriz[i-1][j-1] = Presa()
+        if i-1 >= 0 and j-1 >= 0:
+          if matriz[i-1][j-1] is None:
+            matriz[i-1][j-1] = Presa()
+            return None
       except IndexError:
         pass
 
       try:
-        if matriz[i+1][j-1] is None:
-          matriz[i+1][j-1] = Presa()
+        if j-1 >= 0:
+          if matriz[i+1][j-1] is None:
+            matriz[i+1][j-1] = Presa()
+            return None
       except IndexError:
         pass
 
@@ -204,20 +245,25 @@ class Presa(Animal):
 
     if direccion == 5:
       try:
-        if matriz[i-1][j] is None:
-          matriz[i-1][j] = Presa()
+        if i-1 >= 0:
+          if matriz[i-1][j] is None:
+            matriz[i-1][j] = Presa()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i+1][j] is None:
           matriz[i+1][j] = Presa()
+          return None
       except IndexError:
         pass
 
       try:
-        if matriz[i-1][j+1] is None:
-          matriz[i-1][j+1] = Presa()
+        if i-1 >= 0 and j-1 >= 0:
+          if matriz[i-1][j+1] is None:
+            matriz[i-1][j+1] = Presa()
+            return None
       except IndexError:
         pass
 
@@ -230,44 +276,54 @@ class Presa(Animal):
       return None
 
     if direccion == 6:
-      if matriz[i][j-1] is None:
-        matriz[i][j-1] = Presa()
-      if matriz[i+1][j] is None:
-        matriz[i+1][j] = Presa()
+      if matriz[i][j - 1] is None:
+        matriz[i][j - 1] = Presa()
+        return None
+      if matriz[i + 1][j] is None:
+        matriz[i + 1][j] = Presa()
+        return None
       return None
 
     if direccion == 7:
       try:
-        if matriz[i][j-1] is None:
-          matriz[i][j-1] = Presa()
+        if j-1 >= 0:
+          if matriz[i][j-1] is None:
+            matriz[i][j-1] = Presa()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i][j+1] is None:
           matriz[i][j+1] = Presa()
+          return None
       except IndexError:
         pass
 
       try:
-        if matriz[i+1][j-1] is None:
-          matriz[i+1][j-1] = Presa()
+        if j-1 >= 0:
+          if matriz[i+1][j-1] is None:
+            matriz[i+1][j-1] = Presa()
+            return None
       except IndexError:
         pass
 
       try:
         if matriz[i+1][j+1] is None:
           matriz[i+1][j+1] = Presa()
+          return None
       except IndexError:
         pass
 
       return None
 
     if direccion == 8:
-      if matriz[i][j+1] is None:
-        matriz[i][j+1] = Presa()
-      if matriz[i+1][j] is None:
-        matriz[i+1][j] = Presa()
+      if matriz[i][j + 1] is None:
+        matriz[i][j + 1] = Presa()
+        return None
+      if matriz[i + 1][j] is None:
+        matriz[i + 1][j] = Presa()
+        return None
       return None
 
   def __str__(self):
@@ -341,24 +397,30 @@ def movimiento_presa(matriz: list[list[Animal | Alimento | None]], direccion: in
     fila_nueva = i + 1
     columna_nueva = j + 1
 
-  if isinstance(matriz[fila_nueva][columna_nueva], Depredador):
-    matriz[i][j] = None
-    return None
-  if isinstance(matriz[fila_nueva][columna_nueva], Presa):
-    matriz[i][j].reproduccion(matriz, direccion)
-    matriz[i][j].movimiento = True
-    return None
-  if isinstance(matriz[fila_nueva][columna_nueva], Alimento):
-    matriz[i][j].comer()
+  if fila_nueva < 0 or columna_nueva < 0:
+    return movimiento_presa(matriz, direccion % 8 + 1, i, j)
+
+  try:
+    if isinstance(matriz[fila_nueva][columna_nueva], Depredador):
+      matriz[i][j] = None
+      return None
+    if isinstance(matriz[fila_nueva][columna_nueva], Presa):
+      matriz[i][j].reproduccion(matriz, direccion, i, j)
+      matriz[i][j].movimiento = True
+      return None
+    if isinstance(matriz[fila_nueva][columna_nueva], Alimento):
+      matriz[i][j].comer()
+      matriz[fila_nueva][columna_nueva] = matriz[i][j]
+      matriz[i][j] = None
+      matriz[fila_nueva][columna_nueva].movimiento = True
+      return None
+
     matriz[fila_nueva][columna_nueva] = matriz[i][j]
     matriz[i][j] = None
     matriz[fila_nueva][columna_nueva].movimiento = True
     return None
-
-  matriz[fila_nueva][columna_nueva] = matriz[i][j]
-  matriz[i][j] = None
-  matriz[fila_nueva][columna_nueva].movimiento = True
-  return None
+  except IndexError:
+    return movimiento_presa(matriz, direccion % 8 + 1, i, j)
 
 def buscar_presa(matriz: list[list[Animal | Alimento | None]], fila: int, columna: int, index: int = 1, direccion: str = "arr", distancia: list[int | None] = []):
   if direccion == "arr":
@@ -411,13 +473,11 @@ def buscar_presa(matriz: list[list[Animal | Alimento | None]], fila: int, column
 def direccion_movimiento_depredador(matriz: list[list[Animal | Alimento | None]], fila: int, columna: int, index: int = 0, presas: list[int | None] = [], presas_cercanas: list[int] = []) -> str:
   if not presas:
     presas = buscar_presa(matriz, fila, columna, 1, "arr", [])
+    presas_cercanas = []
 
   if index == len(presas):
     try:
       distancia = min(presas_cercanas)
-    except ValueError:
-      return "N"
-    else:
       if presas.index(distancia) == 0:
         return "arr"
       if presas.index(distancia) == 1:
@@ -426,6 +486,8 @@ def direccion_movimiento_depredador(matriz: list[list[Animal | Alimento | None]]
         return "izq"
       if presas.index(distancia) == 3:
         return "der"
+    except ValueError:
+      return "N"
 
   if presas[index] is not None:
     presas_cercanas.append(presas[index])
@@ -443,6 +505,7 @@ def movimiento_depredador(matriz: list[list[Animal | Alimento | None]], i: int, 
     return None
 
   direccion = direccion_movimiento_depredador(matriz, i, j)
+  nueva_direccion = 0
   if direccion == "arr":
     fila_nueva = i-1
     columna_nueva = j
@@ -470,58 +533,65 @@ def movimiento_depredador(matriz: list[list[Animal | Alimento | None]], i: int, 
       fila_nueva = i
       columna_nueva = j+1
 
-  if isinstance(matriz[fila_nueva][columna_nueva], Depredador):
-    matriz[i][j].reproduccion(matriz, direccion)
-    matriz[i][j].movimiento = True
-    return None
-  if isinstance(matriz[fila_nueva][columna_nueva], Presa) or isinstance(matriz[fila_nueva][columna_nueva], Alimento):
-    matriz[i][j].comer()
+  if fila_nueva < 0 or columna_nueva < 0:
+    return movimiento_depredador(matriz, i, j)
+
+  try:
+    if isinstance(matriz[fila_nueva][columna_nueva], Depredador):
+      matriz[i][j].reproduccion(matriz, direccion, nueva_direccion, i, j)
+      matriz[i][j].movimiento = True
+      return None
+    if isinstance(matriz[fila_nueva][columna_nueva], Presa) or isinstance(matriz[fila_nueva][columna_nueva], Alimento):
+      matriz[i][j].comer()
+      matriz[fila_nueva][columna_nueva] = matriz[i][j]
+      matriz[i][j] = None
+      matriz[fila_nueva][columna_nueva].movimiento = True
+      return None
+
     matriz[fila_nueva][columna_nueva] = matriz[i][j]
     matriz[i][j] = None
     matriz[fila_nueva][columna_nueva].movimiento = True
     return None
-
-  matriz[fila_nueva][columna_nueva] = matriz[i][j]
-  matriz[i][j] = None
-  matriz[fila_nueva][columna_nueva].movimiento = True
-  return None
+  except IndexError:
+    return movimiento_depredador(matriz, i, j)
 
 def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int = 0, simulaciones: int = 0):
   if i == len(matriz):
     return None
   if j == len(matriz[0]):
-    return evolucion(matriz, i + 1, 0)
-
-  if isinstance(matriz[i][j], Presa):
-    direccion = random.randint(1, 8)
-    movimiento_presa(matriz, direccion, i, j)
-    return evolucion(matriz, i, j + 1)
-
-  if isinstance(matriz[i][j], Depredador):
-    movimiento_depredador(matriz, i, j)
-    return evolucion(matriz, i, j + 1)
-
-  if isinstance(matriz[i][j], Alimento):
-    matriz[i][j].reducir_energia()
-    if matriz[i][j].energia == 0:
-      matriz[i][j] = None
-    return evolucion(matriz, i, j+1)
+    return evolucion(matriz, i + 1, 0, simulaciones)
 
   if simulaciones % 5 == 4:
     num = random.randint(1, 10)
     if num == 1:
       matriz[i][j] = Alimento()
 
-  return evolucion(matriz, i, j + 1)
+  if isinstance(matriz[i][j], Presa):
+    direccion = random.randint(1, 8)
+    movimiento_presa(matriz, direccion, i, j)
+    return evolucion(matriz, i, j + 1, simulaciones)
+
+  if isinstance(matriz[i][j], Depredador):
+    movimiento_depredador(matriz, i, j)
+    return evolucion(matriz, i, j + 1, simulaciones)
+
+  if isinstance(matriz[i][j], Alimento):
+    matriz[i][j].reducir_energia()
+    if matriz[i][j].energia == 0:
+      matriz[i][j] = None
+    return evolucion(matriz, i, j+1, simulaciones)
+
+  return evolucion(matriz, i, j + 1, simulaciones)
 
 def imprimir_matriz(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int = 0, fila: list[str] = []):
-  if isinstance(matriz[i][j], Animal):
-    matriz[i][j].movimiento = False
   if i == len(matriz):
     return None
   if j == len(matriz):
     print(fila)
     return imprimir_matriz(matriz, i+1, 0, [])
+
+  if isinstance(matriz[i][j], Animal):
+    matriz[i][j].movimiento = False
 
   if matriz[i][j] is not None:
     fila.append(str(matriz[i][j]))
@@ -530,20 +600,38 @@ def imprimir_matriz(matriz: list[list[Animal | Alimento | None]], i: int = 0, j:
   fila.append(" ")
   return imprimir_matriz(matriz, i, j+1, fila)
 
+def sin_organismos_vivos(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int = 0, cont: int = 0) -> int:
+  if i == len(matriz):
+    return cont
+  if j == len(matriz):
+    return sin_organismos_vivos(matriz, i+1, 0, cont)
+
+  if matriz[i][j] is None:
+    return sin_organismos_vivos(matriz, i, j+1, cont+1)
+
+  return sin_organismos_vivos(matriz, i, j+1, cont)
+
 def simulacion(matriz: list[list[Animal | Alimento | None]], sim: str = "", index: int = 0):
+  if index == 100:
+    print("Límite de iteraciones alcanzado.")
+    return None
+  if sin_organismos_vivos(matriz, 0, 0, 0) == len(matriz)**2:
+    print("No quedan organismos vivos.")
+    return None
   if sim == "":
     sim = input("¿Continuar simulación? (Y/N): ").upper()
   if sim == "N":
+    print("Simulación terminada.")
     return None
   if sim != "Y":
     return simulacion(matriz, "", 0)
 
   evolucion(matriz, simulaciones=index)
-  imprimir_matriz(matriz)
+  imprimir_matriz(matriz, 0, 0, [])
   return simulacion(matriz, "", index+1)
 
 
 if __name__ == "__main__":
   m = generar_matriz(5)
-  imprimir_matriz(m)
-  simulacion(m)
+  imprimir_matriz(m, 0, 0, [])
+  simulacion(m, "", 0)
