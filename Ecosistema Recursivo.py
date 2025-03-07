@@ -284,7 +284,7 @@ class Alimento:
     self.energia -= 5
 
   def __str__(self):
-    if self.energia <= 20:
+    if self.energia >= 20:
       return "A"
     else:
       return "a"
@@ -308,6 +308,9 @@ def generar_matriz(n: int, i: int = 0, j: int = 0, fila: list[Animal | Alimento 
   return generar_matriz(n, i, j+1, fila,  matriz)
 
 def movimiento_presa(matriz: list[list[Animal | Alimento | None]], direccion: int, i: int, j: int):
+  if matriz[i][j].movimiento:
+    return None
+
   matriz[i][j].reducir_energia()
   if matriz[i][j].energia == 0:
     matriz[i][j] = None
@@ -406,7 +409,7 @@ def buscar_presa(matriz: list[list[Animal | Alimento | None]], fila: int, column
     return distancia
 
 def direccion_movimiento_depredador(matriz: list[list[Animal | Alimento | None]], fila: int, columna: int, index: int = 0, presas: list[int | None] = [], presas_cercanas: list[int] = []) -> str:
-  if presas == []:
+  if not presas:
     presas = buscar_presa(matriz, fila, columna, 1, "arr", [])
 
   if index == len(presas):
@@ -431,6 +434,9 @@ def direccion_movimiento_depredador(matriz: list[list[Animal | Alimento | None]]
   return direccion_movimiento_depredador(matriz, fila, columna, index + 1, presas, presas_cercanas)
 
 def movimiento_depredador(matriz: list[list[Animal | Alimento | None]], i: int, j: int):
+  if matriz[i][j].movimiento:
+    return None
+
   matriz[i][j].reducir_energia()
   if matriz[i][j].energia == 0:
     matriz[i][j] = None
@@ -480,7 +486,7 @@ def movimiento_depredador(matriz: list[list[Animal | Alimento | None]], i: int, 
   matriz[fila_nueva][columna_nueva].movimiento = True
   return None
 
-def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int = 0):
+def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int = 0, simulaciones: int = 0):
   if i == len(matriz):
     return None
   if j == len(matriz[0]):
@@ -501,9 +507,16 @@ def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int =
       matriz[i][j] = None
     return evolucion(matriz, i, j+1)
 
+  if simulaciones % 5 == 4:
+    num = random.randint(1, 10)
+    if num == 1:
+      matriz[i][j] = Alimento()
+
   return evolucion(matriz, i, j + 1)
 
 def imprimir_matriz(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int = 0, fila: list[str] = []):
+  if isinstance(matriz[i][j], Animal):
+    matriz[i][j].movimiento = False
   if i == len(matriz):
     return None
   if j == len(matriz):
@@ -517,21 +530,20 @@ def imprimir_matriz(matriz: list[list[Animal | Alimento | None]], i: int = 0, j:
   fila.append(" ")
   return imprimir_matriz(matriz, i, j+1, fila)
 
-def simulacion(matriz: list[list[Animal | Alimento | None]], sim: str = ""):
-  sim = input("¿Continuar simulación? (Y/N)").upper()
+def simulacion(matriz: list[list[Animal | Alimento | None]], sim: str = "", index: int = 0):
+  if sim == "":
+    sim = input("¿Continuar simulación? (Y/N): ").upper()
   if sim == "N":
     return None
   if sim != "Y":
-    return simulacion(matriz, "")
+    return simulacion(matriz, "", 0)
 
-  evolucion(matriz)
+  evolucion(matriz, simulaciones=index)
   imprimir_matriz(matriz)
-  return simulacion(matriz, "")
-
-
+  return simulacion(matriz, "", index+1)
 
 
 if __name__ == "__main__":
-  m = generar_matriz(10)
+  m = generar_matriz(5)
   imprimir_matriz(m)
   simulacion(m)
