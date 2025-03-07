@@ -10,7 +10,7 @@ class Animal:
     self.energia -= 5
 
   def comer(self):
-    self.energia += 10
+    self.energia += 50
 
 
 class Depredador(Animal):
@@ -405,7 +405,8 @@ def movimiento_presa(matriz: list[list[Animal | Alimento | None]], direccion: in
       matriz[i][j] = None
       return None
     if isinstance(matriz[fila_nueva][columna_nueva], Presa):
-      matriz[i][j].reproduccion(matriz, direccion, i, j)
+      if matriz[i][j].energia >= 50 or matriz[fila_nueva][columna_nueva].energia >= 50:
+        matriz[i][j].reproduccion(matriz, direccion, i, j)
       matriz[i][j].movimiento = True
       return None
     if isinstance(matriz[fila_nueva][columna_nueva], Alimento):
@@ -538,7 +539,8 @@ def movimiento_depredador(matriz: list[list[Animal | Alimento | None]], i: int, 
 
   try:
     if isinstance(matriz[fila_nueva][columna_nueva], Depredador):
-      matriz[i][j].reproduccion(matriz, direccion, nueva_direccion, i, j)
+      if matriz[i][j].energia >= 50 or matriz[fila_nueva][columna_nueva].energia >= 50:
+        matriz[i][j].reproduccion(matriz, direccion, nueva_direccion, i, j)
       matriz[i][j].movimiento = True
       return None
     if isinstance(matriz[fila_nueva][columna_nueva], Presa) or isinstance(matriz[fila_nueva][columna_nueva], Alimento):
@@ -562,9 +564,10 @@ def evolucion(matriz: list[list[Animal | Alimento | None]], i: int = 0, j: int =
     return evolucion(matriz, i + 1, 0, simulaciones)
 
   if simulaciones % 5 == 4:
-    num = random.randint(1, 10)
-    if num == 1:
-      matriz[i][j] = Alimento()
+    if matriz[i][j] is None:
+      num = random.randint(1, 10)
+      if num == 1:
+        matriz[i][j] = Alimento()
 
   if isinstance(matriz[i][j], Presa):
     direccion = random.randint(1, 8)
